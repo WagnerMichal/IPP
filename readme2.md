@@ -1,4 +1,4 @@
-# Implementační dokumentace k 1. úloze do IPP 2022/2023
+# Implementační dokumentace k 2. úloze do IPP 2022/2023
 Jméno a příjmení: Michal Wagner
 Login: xwagne12
 
@@ -19,6 +19,13 @@ V souboru `argument.py` jsou vytvořeny funkce pro sémantickou kontrolu operand
 ### Interpretace instrukcí
 Interpretace instrukcí je provedena ve třídě `Core`, která spouští jednotlivé instrukce z pole ve správném pořadí. Třída se navíc stará o rámce a obsahuje další metody pro práci s instrukcemi. Mezi tyto metody patří uložení symbolu na zásobník, ověření existence proměnné v rámci, získání, nastavení a definování proměnné, ověření existence návěští a získání symbolu.
 
-### UML diagram
+## Rozšíření
+Díky dobrému původnímu návrhu byla implementace rozšíření jednoduchou záležitostí.
+### STACK
+Instrukce rozšíření stack jsou potomky nezásobníkových verzí instrukcí. Jsou pro ně navíc vytvořeny metody pro uložení symbolu na zásobník a získání symbolu ze zásobníku.
+### FLOAT
+Rozšíření FLOAT je implementované přidáním nového podporovaného datového typu a přidání sémantické kontroly pro datový typ `float`. Pro převádění jsou využity funkce `float.fromhex()` a `float.hex()`.
+
+## UML diagram
 Kvůli velkému počtu tříd v mé implementaci může být UML diagram nečitelný, proto jsem přidal fotku do složky UML-diagram pro lepší přehlednost.
 ![UML-diagram](/UML-diagram/classes.png)

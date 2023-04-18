@@ -204,6 +204,13 @@ class XMLCheck:
             except:
                 error_handler("Unexpected XML structure: INT format",
                               ERROR_UNEXP_XML_STRUCT)
+        
+        if argument_type == "float":
+            try:
+                return Symbol("float", float.fromhex(argument_value))
+            except:
+                error_handler("Unexpected XML structure: INT format",
+                              ERROR_UNEXP_XML_STRUCT)
 
         if argument_type == "string":
             return Symbol("string", self.clean_string(argument_value))
@@ -214,6 +221,8 @@ class XMLCheck:
             if argument_value == "bool":
                 return Argument(argument_type, argument_value)
             if argument_value == "string":
+                return Argument(argument_type, argument_value)
+            if argument_value == "float":
                 return Argument(argument_type, argument_value)
             else:
                 error_handler(

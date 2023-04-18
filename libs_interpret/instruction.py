@@ -5,7 +5,7 @@
 import sys
 from sys import stderr
 
-from libs_interpret.argument import Index, Var, int_check, bool_check, symbol_check, str_check, Symbol, symbol_str_int
+from libs_interpret.argument import Index, Var, int_check, bool_check, symbol_check, str_check, float_check, Symbol, symbol_str_int
 from libs_interpret.error import ERROR_UNEXP_XML_STRUCT, ERROR_NONEXIST_FRAME, ERROR_UNDEF_VAR, ERROR_SEMANTIC, ERROR_STR_OPERATION, \
     ERROR_OPERAND_VAL, ERROR_MISSING_VAL, ERROR_INTERNAL, error_handler
 
@@ -284,7 +284,7 @@ class Add(Instruction):
         symbol1, symbol2 = self.get_symbol(core)
         int_check(symbol1, symbol2)
         core.set_variable(self.args[Index.ARG1], Symbol(
-            "int", symbol1.value + symbol2.value))
+            symbol1.d_type, symbol1.value + symbol2.value))
 
 
 class Sub(Instruction):
@@ -293,7 +293,7 @@ class Sub(Instruction):
         symbol1, symbol2 = self.get_symbol(core)
         int_check(symbol1, symbol2)
         core.set_variable(self.args[Index.ARG1], Symbol(
-            "int", symbol1.value - symbol2.value))
+            symbol1.d_type, symbol1.value - symbol2.value))
 
 
 class Mul(Instruction):
@@ -302,7 +302,7 @@ class Mul(Instruction):
         symbol1, symbol2 = self.get_symbol(core)
         int_check(symbol1, symbol2)
         core.set_variable(self.args[Index.ARG1], Symbol(
-            "int", symbol1.value * symbol2.value))
+            symbol1.d_type, symbol1.value * symbol2.value))
 
 
 class IDiv(Instruction):
@@ -314,7 +314,19 @@ class IDiv(Instruction):
             error_handler("Operand value: cant divide with zero",
                           ERROR_OPERAND_VAL)
         core.set_variable(self.args[Index.ARG1], Symbol(
-            "int", symbol1.value // symbol2.value))
+            symbol1.d_type, symbol1.value // symbol2.value))
+        
+        
+class Div(Instruction):
+
+    def perform(self, core):
+        symbol1, symbol2 = self.get_symbol(core)
+        float_check(symbol1, symbol2)
+        if symbol2.value == 0:
+            error_handler("Operand value: cant divide with zero",
+                          ERROR_OPERAND_VAL)
+        core.set_variable(self.args[Index.ARG1], Symbol(
+            "float", symbol1.value // symbol2.value))
 
 
 class LT(Instruction):
@@ -391,6 +403,32 @@ class Stri2Int(Instruction):
             "int", ord(symbol1.value[symbol2.value])))
 
 
+class Float2Int(Instruction):
+    
+    def perform(self, core):
+        symbol = core.get_symbol_value(self.args[Index.ARG2])
+        float_check(symbol, Symbol("float", 1.1))
+        try:
+            symbol.value = int(symbol.value)
+        except:
+            error_handler("Bad data type: wrong range", ERROR_STR_OPERATION)
+        core.set_variable(self.args[Index.ARG1],
+                          Symbol("int", symbol.value))
+        
+
+class Int2Float(Instruction):
+    
+    def perform(self, core):
+        symbol = core.get_symbol_value(self.args[Index.ARG2])
+        int_check(symbol, Symbol("int", 1))
+        try:
+            symbol.value = float(symbol.value)
+        except:
+            error_handler("Bad data type: wrong range", ERROR_STR_OPERATION)
+        core.set_variable(self.args[Index.ARG1],
+                          Symbol("float", symbol.value))
+
+
 class Read(Instruction):
 
     def perform(self, core):
@@ -424,6 +462,14 @@ class Read(Instruction):
                     core.set_variable(
                         self.args[Index.ARG1], Symbol("nil", None))
                 return
+            elif symbol.value == "float":
+                try:
+                    core.set_variable(
+                        self.args[Index.ARG1], Symbol("float", float.fromhex(read_input)))
+                except:
+                    core.set_variable(
+                        self.args[Index.ARG1], Symbol("nil", None))
+                return
             elif symbol.value == "string":
                 core.set_variable(
                     self.args[Index.ARG1], Symbol("string", read_input))
@@ -448,6 +494,9 @@ class Write(Instruction):
 
         if symbol.d_type == "nil":
             print("", end="")
+            return
+        if symbol.d_type == "float":
+            print(float.hex(symbol.value), end="")
             return
         if symbol.d_type == "bool":
             print(str(symbol.value).lower(), end="")

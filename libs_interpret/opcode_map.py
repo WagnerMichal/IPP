@@ -4,13 +4,13 @@
 ###############################################
 
 from libs_interpret.stack import (
-    Clears, Adds, Subs, Muls, IDivs, LTs, GTs, Eqs, Ands, Ors, Nots,
+    Clears, Adds, Subs, Muls, IDivs, Divs, LTs, GTs, Eqs, Ands, Ors, Nots,
     Int2Chars, Stri2Ints, JumpIfEqs, JumpIfNEqs)
 
 from libs_interpret.instruction import (
     Move, CreateFrame, PushFrame, PopFrame, DefVar, Call, Return,
-    Pushs, Pops, Add, Sub, Mul, IDiv, LT, GT, Eq, And, Or, Not,
-    Int2Char, Stri2Int, Read, Write, Concat, StrLen, GetChar, SetChar,
+    Pushs, Pops, Add, Sub, Mul, IDiv, Div, LT, GT, Eq, And, Or, Not,
+    Int2Char, Stri2Int, Float2Int, Int2Float, Read, Write, Concat, StrLen, GetChar, SetChar,
     Type, Label, Jump, JumpIfEq, JumpIfNEq, Exit, DPrint, Break)
 
 """
@@ -29,6 +29,7 @@ opcode_instructions = {
     "SUB": Sub,
     "MUL": Mul,
     "IDIV": IDiv,
+    "DIV": Div,
     "LT": LT,
     "GT": GT,
     "EQ": Eq,
@@ -37,6 +38,8 @@ opcode_instructions = {
     "NOT": Not,
     "INT2CHAR": Int2Char,
     "STRI2INT": Stri2Int,
+    "INT2FLOAT": Int2Float,
+    "FLOAT2INT": Float2Int,
     "READ": Read,
     "WRITE": Write,
     "CONCAT": Concat,
@@ -57,6 +60,7 @@ opcode_instructions = {
     "SUBS": Subs,
     "MULS": Muls,
     "IDIVS": IDivs,
+    "DIVS": Divs,
     "LTS": LTs,
     "GTS": GTs,
     "EQS": Eqs,

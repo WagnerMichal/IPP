@@ -7,10 +7,10 @@ from libs_interpret.error import ERROR_OPERAND_TYPE, ERROR_STR_OPERATION, error_
 # Dictionary with keys as opcodes and value as expected number of arguments.
 opcode_dict = {'MOVE': 2, 'CREATEFRAME': 0, 'PUSHFRAME': 0, 'POPFRAME': 0, 'DEFVAR': 1, 'CALL': 1, 'RETURN': 0,
                'PUSHS': 1, 'POPS': 1, 'ADD': 3, 'SUB': 3, 'MUL': 3, 'IDIV': 3, 'LT': 3, 'GT': 3, 'EQ': 3, 'AND': 3, 'OR': 3, 'NOT': 2,
-               'INT2CHAR': 2, 'STRI2INT': 3, 'READ': 2, 'WRITE': 1, 'CONCAT': 3, 'STRLEN': 2, 'GETCHAR': 3, 'SETCHAR': 3,
+               'INT2CHAR': 2, 'STRI2INT': 3, 'INT2FLOAT': 2, 'FLOAT2INT': 2, 'READ': 2, 'WRITE': 1, 'CONCAT': 3, 'STRLEN': 2, 'GETCHAR': 3, 'SETCHAR': 3,
                'TYPE': 2, 'LABEL': 1, 'JUMP': 1, 'JUMPIFEQ': 3, 'JUMPIFNEQ': 3, 'EXIT': 1, 'DPRINT': 1, 'BREAK': 0,
-               'CLEARS': 0, 'ADDS': 0, 'SUBS': 0, 'MULS': 0, 'IDIVS': 0, 'LTS': 0, 'GTS': 0, 'EQS': 0, 'ANDS': 0, 'ORS': 0, 'NOTS': 0,
-               'INT2CHARS': 0, 'STRI2INTS': 0, 'JUMPIFEQS': 1, 'JUMPIFNEQS': 1}
+               'CLEARS': 0, 'ADDS': 0, 'SUBS': 0, 'MULS': 0, 'IDIVS': 0, 'DIVS': 0, 'LTS': 0, 'GTS': 0, 'EQS': 0, 'ANDS': 0, 'ORS': 0, 'NOTS': 0,
+               'INT2CHARS': 0, 'STRI2INTS': 0, 'JUMPIFEQS': 1, 'JUMPIFNEQS': 1, 'DIV':3}
 
 
 class Index:
@@ -36,6 +36,19 @@ def int_check(symbol1, symbol2):
         Semantic control of two integers.
     """
     if symbol1.d_type != "int" or symbol2.d_type != "int":
+        if symbol1.d_type != "float" or symbol2.d_type != "float":
+            error_handler("Bad data type: only int", ERROR_OPERAND_TYPE)
+    if symbol1.d_type is not symbol2.d_type:
+        error_handler("Bad data type: types not matching", ERROR_OPERAND_TYPE)
+    if symbol1.d_type == "nil" or symbol2.d_type == "nil":
+        error_handler("Bad data type: wrong data type", ERROR_OPERAND_TYPE)
+
+
+def float_check(symbol1, symbol2):
+    """
+        Semantic control of two integers.
+    """
+    if symbol1.d_type != "float" or symbol2.d_type != "float":
         error_handler("Bad data type: only int", ERROR_OPERAND_TYPE)
     if symbol1.d_type is not symbol2.d_type:
         error_handler("Bad data type: types not matching", ERROR_OPERAND_TYPE)
