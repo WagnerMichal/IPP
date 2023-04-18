@@ -21,4 +21,4 @@ Interpretace instrukcí je provedena ve třídě `Core`, která spouští jednot
 
 ### UML diagram
 Kvůli velkému počtu tříd v mé implementaci může být UML diagram nečitelný, proto jsem přidal fotku do složky UML-diagram pro lepší přehlednost.
-![UML-diagram](UML-diagram/classes.jpg)
+![UML-diagram](UML-diagram\classes.jpg)
