@@ -2,12 +2,20 @@
 #Name: Michal Wagner
 #Login: xwagne12
 ###############################################
-from instruction import(
+
+from libs_interpret.stack import (
+    Clears, Adds, Subs, Muls, IDivs, LTs, GTs, Eqs, Ands, Ors, Nots,
+    Int2Chars, Stri2Ints, JumpIfEqs, JumpIfNEqs)
+
+from libs_interpret.instruction import (
     Move, CreateFrame, PushFrame, PopFrame, DefVar, Call, Return,
     Pushs, Pops, Add, Sub, Mul, IDiv, LT, GT, Eq, And, Or, Not,
-    Int2Char, Str2Int, Read, Write, Concat, StrLen, GetChar, SetChar,
-    Type, Label, Jump, JumpIfNEq, Exit, DPrint, Break)
+    Int2Char, Stri2Int, Read, Write, Concat, StrLen, GetChar, SetChar,
+    Type, Label, Jump, JumpIfEq, JumpIfNEq, Exit, DPrint, Break)
 
+"""
+    Dictionary, which maps instruction operation to their instances.
+"""
 opcode_instructions = {
     "MOVE": Move,
     "CREATEFRAME": CreateFrame,
@@ -28,7 +36,7 @@ opcode_instructions = {
     "OR": Or,
     "NOT": Not,
     "INT2CHAR": Int2Char,
-    "STR2INT": Str2Int,
+    "STRI2INT": Stri2Int,
     "READ": Read,
     "WRITE": Write,
     "CONCAT": Concat,
@@ -37,9 +45,26 @@ opcode_instructions = {
     "SETCHAR": SetChar,
     "TYPE": Type,
     "LABEL": Label,
-    "JUMB": Jump,
+    "JUMP": Jump,
+    "JUMPIFEQ": JumpIfEq,
     "JUMPIFNEQ": JumpIfNEq,
     "EXIT": Exit,
     "DPRINT": DPrint,
-    "BREAK": Break
+    "BREAK": Break,
+    "RETURN": Return,
+    "CLEARS": Clears,
+    "ADDS": Adds,
+    "SUBS": Subs,
+    "MULS": Muls,
+    "IDIVS": IDivs,
+    "LTS": LTs,
+    "GTS": GTs,
+    "EQS": Eqs,
+    "ANDS": Ands,
+    "ORS": Ors,
+    "NOTS": Nots,
+    "INT2CHARS": Int2Chars,
+    "STRI2INTS": Stri2Ints,
+    "JUMPIFEQS": JumpIfEqs,
+    "JUMPIFNEQS": JumpIfNEqs
 }

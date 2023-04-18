@@ -20,5 +20,8 @@ OK = 0
 
 
 def error_handler(error_message, error_code):
+    """
+        Print error to stderr and exit with coresponding error code.
+    """
     sys.stderr.write("Error: " + error_message + "\n")
     sys.exit(error_code)

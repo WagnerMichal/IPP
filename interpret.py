@@ -3,20 +3,20 @@
 #Login: xwagne12
 ###############################################
 import sys
-from error import OK
-from instruction import InterpretLabels, Instruction
-from xml_parser import XMLCheck
+from libs_interpret.error import OK
+from libs_interpret.instruction import Core
+from libs_interpret.xml_parser import XMLCheck
+
+
 def main():
     instructions = dict()
     xml = XMLCheck()
     xml.arguments_parse()
     xml.xml_read()
     instructions = xml.parse_instruction()
-    labelinter = InterpretLabels(instructions)
-    labelinter.perform()
+    core = Core(instructions, xml.inputFile)
+    core.perform()
     sys.exit(OK)
-
-#  Todo Finish perform label
 
 
 if __name__ == '__main__':
